@@ -1,4 +1,4 @@
-﻿namespace Huevy.Lib.ColorSource
+﻿namespace Huevy.Lib.Core
 {
     public enum ColorPosition
     {

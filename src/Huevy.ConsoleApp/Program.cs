@@ -1,4 +1,6 @@
 ﻿using Huevy.Lib.Controllers;
+using Huevy.Lib.Utilities;
+using Huevy.Lib.Utilities.BitmapDisplay;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +15,18 @@ namespace Huevy.ConsoleApp
 
             Console.WriteLine("Press ANY key to exit");
             Console.ReadKey(true);
+        }
+
+
+
+        private static async Task DoWorkScreenshots()
+        {
+            while (true)
+            {
+                var screenshot = Screenshot.TakeSmall();
+                BitmapDisplayForm.Instance.LoadBitmap(screenshot);
+                await Task.Delay(700);
+            };
         }
 
         private static async Task DoWork()
