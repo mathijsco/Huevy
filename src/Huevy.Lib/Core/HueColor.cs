@@ -1,4 +1,6 @@
-﻿namespace Huevy.Lib.Core
+﻿using System.Drawing;
+
+namespace Huevy.Lib.Core
 {
     public struct HueColor
     {
@@ -9,5 +11,7 @@
         public ushort Hue;
 
         public byte Saturation;
+
+        public Color OriginalColor;
     }
 }

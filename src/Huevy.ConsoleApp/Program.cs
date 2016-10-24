@@ -1,4 +1,5 @@
-﻿using Huevy.Lib.Controllers;
+﻿using Huevy.Lib.ColorSource;
+using Huevy.Lib.Controllers;
 using Huevy.Lib.Utilities;
 using Huevy.Lib.Utilities.BitmapDisplay;
 using System;
@@ -11,13 +12,24 @@ namespace Huevy.ConsoleApp
     {
         static void Main(string[] args)
         {
-            DoWork().Wait();
+            DoWorkLiveCapture().Wait();
 
             Console.WriteLine("Press ANY key to exit");
             Console.ReadKey(true);
         }
 
 
+
+        private static async Task DoWorkLiveCapture()
+        {
+            var source = new LiveCaptureColorSource();
+            while (true)
+            {
+                var scene = source.DetectScene();
+                BitmapDisplayForm.Instance.LoadScene(scene);
+                await Task.Delay(50);
+            };
+        }
 
         private static async Task DoWorkScreenshots()
         {
