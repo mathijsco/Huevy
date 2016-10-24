@@ -32,5 +32,16 @@ namespace Huevy.Lib.Core
             // Arc
             //return (float)Math.Pow(saturation / 2 + brightness, 2);
         }
+
+        public static HueColor ToHueColor(this Color color)
+        {
+            return new HueColor
+            {
+                Hue = color.HueHue(),
+                Saturation = color.HueSaturation(),
+                Brightness = color.HueBrightness(),
+                OriginalColor = color
+            };
+        }
     }
 }

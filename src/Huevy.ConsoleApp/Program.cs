@@ -1,4 +1,5 @@
-﻿using Huevy.Lib.ColorSource;
+﻿using Huevy.Lib.ColorAnalyzers;
+using Huevy.Lib.ColorSource;
 using Huevy.Lib.Controllers;
 using Huevy.Lib.Utilities;
 using Huevy.Lib.Utilities.BitmapDisplay;
@@ -23,10 +24,16 @@ namespace Huevy.ConsoleApp
         private static async Task DoWorkLiveCapture()
         {
             var source = new LiveCaptureColorSource();
+            IColorAnalyzer colorAnalyzer = new Top1ColorAnalyzer();
             while (true)
             {
+                var time = DateTime.Now;
+
                 var scene = source.DetectScene();
-                BitmapDisplayForm.Instance.LoadScene(scene);
+                BitmapDisplayForm.Instance.LoadScene(scene, colorAnalyzer);
+
+                var end = DateTime.Now - time;
+                Console.WriteLine("Time took: " + end.TotalMilliseconds + " ms");
                 await Task.Delay(50);
             };
         }
@@ -35,9 +42,14 @@ namespace Huevy.ConsoleApp
         {
             while (true)
             {
+                var time = DateTime.Now;
+
                 var screenshot = Screenshot.TakeSmall();
-                BitmapDisplayForm.Instance.LoadBitmap(screenshot);
-                await Task.Delay(700);
+                //BitmapDisplayForm.Instance.LoadBitmap(screenshot);
+
+                var end = DateTime.Now - time;
+                Console.WriteLine("Time took: " + end.TotalMilliseconds + " ms");
+                await Task.Delay(50);
             };
         }
 

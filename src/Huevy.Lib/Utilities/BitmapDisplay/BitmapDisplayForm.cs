@@ -1,4 +1,5 @@
-﻿using Huevy.Lib.Core;
+﻿using Huevy.Lib.ColorAnalyzers;
+using Huevy.Lib.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -60,37 +61,34 @@ namespace Huevy.Lib.Utilities.BitmapDisplay
             this.ClientSize = new Size(150, 150);
         }
 
-        private void DisposeImage()
-        {
-            var image = _pictureBox.Image;
-            if (image != null)
-            {
-                _pictureBox.Image = null;
-                image.Dispose();
-            }
-        }
-
         public void LoadBitmap(Image bitmap)
         {
-            DisposeImage();
+            var oldImage = _pictureBox.Image;
             _pictureBox.Image = bitmap;
+            oldImage?.Dispose();
         }
 
-        public void LoadScene(ColorSet colorSet)
+        public void LoadScene(ColorSet colorSet, IColorAnalyzer colorAnalyzer)
         {
-            DisposeImage();
+            var oldImage = _pictureBox.Image;
             var bitmap = new Bitmap(150, 150);
             using (var graphics = Graphics.FromImage(bitmap))
             {
                 graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-                graphics.FillRectangle(new SolidBrush(colorSet[ColorPosition.FullScreen].OriginalColor), 0, 0, 150, 150);
-                graphics.FillRectangle(new SolidBrush(colorSet[ColorPosition.Top].OriginalColor), 40, 30, 70, 30);
-                graphics.FillRectangle(new SolidBrush(colorSet[ColorPosition.Bottom].OriginalColor), 40, 90, 70, 30);
-                graphics.FillRectangle(new SolidBrush(colorSet[ColorPosition.Left].OriginalColor), 0, 30, 40, 90);
-                graphics.FillRectangle(new SolidBrush(colorSet[ColorPosition.Right].OriginalColor), 110, 30, 40, 90);
-                graphics.FillRectangle(new SolidBrush(colorSet[ColorPosition.Center].OriginalColor), 40, 60, 70, 30);
+                graphics.FillRectangle(FindColor(colorSet, colorAnalyzer, ColorPosition.FullScreen), 0, 0, 150, 150);
+                graphics.FillRectangle(FindColor(colorSet, colorAnalyzer, ColorPosition.Top), 40, 30, 70, 30);
+                graphics.FillRectangle(FindColor(colorSet, colorAnalyzer, ColorPosition.Bottom), 40, 90, 70, 30);
+                graphics.FillRectangle(FindColor(colorSet, colorAnalyzer, ColorPosition.Left), 0, 30, 40, 90);
+                graphics.FillRectangle(FindColor(colorSet, colorAnalyzer, ColorPosition.Right), 110, 30, 40, 90);
+                graphics.FillRectangle(FindColor(colorSet, colorAnalyzer, ColorPosition.Center), 40, 60, 70, 30);
             }
             _pictureBox.Image = bitmap;
+            oldImage?.Dispose();
+        }
+
+        private SolidBrush FindColor(ColorSet set, IColorAnalyzer analyzer, ColorPosition position)
+        {
+            return new SolidBrush(analyzer.FindColor(set[position]).OriginalColor);
         }
     }
 }
