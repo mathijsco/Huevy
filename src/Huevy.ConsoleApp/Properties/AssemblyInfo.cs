@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Huevy.ConsoleApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft Corporation")]
+[assembly: AssemblyCompany("Mathijs van Gool")]
 [assembly: AssemblyProduct("Huevy.ConsoleApp")]
-[assembly: AssemblyCopyright("Copyright © Microsoft Corporation 2016")]
+[assembly: AssemblyCopyright("Copyright © Mathijs van Gool 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

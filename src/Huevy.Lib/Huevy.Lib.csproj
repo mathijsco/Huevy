@@ -66,6 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyConfig.cs" />
+    <Compile Include="ColorSource\ColorPosition.cs" />
+    <Compile Include="ColorSource\ColorSet.cs" />
+    <Compile Include="ColorSource\HueColor.cs" />
+    <Compile Include="ColorSource\IColorSource.cs" />
+    <Compile Include="Controllers\ConnectionController.cs" />
+    <Compile Include="HuevySettings.cs" />
     <Compile Include="IO\AssemblyConfigRepository.cs" />
     <Compile Include="IO\InternalResolver.cs" />
     <Compile Include="IO\MacUtility.cs" />
@@ -74,6 +80,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
