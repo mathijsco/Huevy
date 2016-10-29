@@ -1,14 +1,10 @@
-﻿using Huevy.Lib.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Huevy.Lib.ColorAnalyzers;
+using Huevy.Lib.Core;
 
 namespace Huevy.Lib.ColorSource
 {
     public interface IColorSource
     {
-        ColorSet DetectScene();
+        ColorSet DetectScene<T>() where T : IColorAnalyzer, new();
     }
 }

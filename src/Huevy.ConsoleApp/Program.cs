@@ -1,10 +1,12 @@
 ﻿using Huevy.Lib.ColorAnalyzers;
 using Huevy.Lib.ColorSource;
 using Huevy.Lib.Controllers;
+using Huevy.Lib.Core;
 using Huevy.Lib.Utilities;
 using Huevy.Lib.Utilities.BitmapDisplay;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Huevy.ConsoleApp
@@ -24,17 +26,16 @@ namespace Huevy.ConsoleApp
         private static async Task DoWorkLiveCapture()
         {
             var source = new LiveCaptureColorSource();
-            IColorAnalyzer colorAnalyzer = new Top1ColorAnalyzer();
             while (true)
             {
                 var time = DateTime.Now;
+                var timing = AccurateThreadTiming.StartNew(TimeSpan.FromMilliseconds(50));
 
-                var scene = source.DetectScene();
-                BitmapDisplayForm.Instance.LoadScene(scene, colorAnalyzer);
+                var scene = source.DetectScene<TopColorAnalyzer>();
+                BitmapDisplayForm.Instance.LoadScene(scene);
 
-                var end = DateTime.Now - time;
-                Console.WriteLine("Time took: " + end.TotalMilliseconds + " ms");
-                await Task.Delay(50);
+                Console.WriteLine("Time took: " + (DateTime.Now - time).TotalMilliseconds + " ms");
+                timing.Sleep(CancellationToken.None);
             };
         }
 
@@ -43,13 +44,13 @@ namespace Huevy.ConsoleApp
             while (true)
             {
                 var time = DateTime.Now;
+                var timing = AccurateThreadTiming.StartNew(TimeSpan.FromMilliseconds(50));
 
                 var screenshot = Screenshot.TakeSmall();
                 //BitmapDisplayForm.Instance.LoadBitmap(screenshot);
 
-                var end = DateTime.Now - time;
-                Console.WriteLine("Time took: " + end.TotalMilliseconds + " ms");
-                await Task.Delay(50);
+                Console.WriteLine("Time took: " + (DateTime.Now - time).TotalMilliseconds + " ms");
+                timing.Sleep(CancellationToken.None);
             };
         }
 

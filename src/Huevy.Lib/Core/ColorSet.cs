@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Huevy.Lib.ColorAnalyzers;
+using System;
 
 namespace Huevy.Lib.Core
 {
     public sealed class ColorSet
     {
-        private readonly ColorBucket[] _colors;
+        private readonly IColorAnalyzer[] _colors;
 
-        public ColorSet()
+        private ColorSet(Func<IColorAnalyzer> composer)
         {
-            _colors = new ColorBucket[Enum.GetValues(typeof(ColorPosition)).Length];
+            _colors = new IColorAnalyzer[Enum.GetValues(typeof(ColorPosition)).Length];
             for (int n = 0; n < _colors.Length; n++)
-                _colors[n] = new ColorBucket();
+                _colors[n] = composer();
         }
 
-        public ColorBucket this[ColorPosition position]
+        public IColorAnalyzer this[ColorPosition position]
         {
             get
             {
@@ -23,6 +24,11 @@ namespace Huevy.Lib.Core
             {
                 _colors[(int)position] = value;
             }
+        }
+
+        public static ColorSet Create<T>() where T : IColorAnalyzer, new()
+        {
+            return new ColorSet(() => new T());
         }
     }
 }

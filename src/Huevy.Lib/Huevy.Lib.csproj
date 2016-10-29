@@ -70,11 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyConfig.cs" />
-    <Compile Include="ColorAnalyzers\AverageOfTop3ColorAnalyzer.cs" />
-    <Compile Include="ColorAnalyzers\HighestIntensityColorAnalyzer.cs" />
     <Compile Include="ColorAnalyzers\IColorAnalyzer.cs" />
-    <Compile Include="ColorAnalyzers\Top1ColorAnalyzer.cs" />
+    <Compile Include="ColorAnalyzers\TopColorAnalyzer.cs" />
     <Compile Include="ColorSource\LiveCaptureColorSource.cs" />
+    <Compile Include="Core\AccurateThreadTiming.cs" />
+    <Compile Include="Core\TinyColor.cs" />
     <Compile Include="Core\ColorBucket.cs" />
     <Compile Include="Core\ColorExtensions.cs" />
     <Compile Include="Core\ColorPosition.cs" />
