@@ -43,7 +43,6 @@ namespace Huevy.Lib.Utilities.BitmapDisplay
             this.MinimumSize = new Size(0, 0);
             this.Location = new Point(0, 0);
             this.FormBorderStyle = FormBorderStyle.None;
-            this.TopMost = true;
             this.ShowInTaskbar = false;
 
             _pictureBox = new PictureBoxWithInterpolationMode();
@@ -55,6 +54,7 @@ namespace Huevy.Lib.Utilities.BitmapDisplay
             this.Show();
 
             this.ClientSize = new Size(150, 150);
+            this.TopMost = true;
         }
 
         public void LoadBitmap(Image bitmap)

@@ -1,4 +1,5 @@
-﻿using Huevy.Lib.ColorAnalyzers;
+﻿using Huevy.ConsoleApp.Properties;
+using Huevy.Lib.ColorAnalyzers;
 using Huevy.Lib.ColorSource;
 using Huevy.Lib.Controllers;
 using Huevy.Lib.Core;
@@ -25,11 +26,12 @@ namespace Huevy.ConsoleApp
 
         private static async Task DoWorkLiveCapture()
         {
+            var sleep = Settings.Default.UpdateCycleInMs;
             var source = new LiveCaptureColorSource();
             while (true)
             {
                 var time = DateTime.Now;
-                var timing = AccurateThreadTiming.StartNew(TimeSpan.FromMilliseconds(50));
+                var timing = AccurateThreadTiming.StartNew(TimeSpan.FromMilliseconds(sleep));
 
                 var scene = source.DetectScene<TopColorAnalyzer>();
                 BitmapDisplayForm.Instance.LoadScene(scene);

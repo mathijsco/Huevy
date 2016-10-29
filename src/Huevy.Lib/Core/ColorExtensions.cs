@@ -19,19 +19,6 @@ namespace Huevy.Lib.Core
             return (byte)(color.Saturation * 255);
         }
 
-        public static float ColorIntensity(this TinyColor color)
-        {
-            var saturation = color.Saturation; // Sweetspot = 1
-            var brightness = color.Brightness; // Sweetspot = 0.5
-            if (brightness > 0.5)
-                brightness = 1 - brightness;
-
-            // Linear
-            return saturation / 2 + brightness;
-            // Arc
-            //return (float)Math.Pow(saturation / 2 + brightness, 2);
-        }
-
         public static HueColor ToHueColor(this TinyColor color)
         {
             return new HueColor

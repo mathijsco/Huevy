@@ -34,6 +34,9 @@ namespace Huevy.Lib.ColorAnalyzers
             //if (targetColors.Any(c => c.Equals(_currentColor)))
             //    return;
 
+            // TODO: Cannot have different HUE and Saturation. This can take the HUE of one area, but the saturation of an other area.
+            // This can show a color that is not on the screen. Eg. HUE = brown, but Saturation of light green. Means color = orange.
+
             var h = IndexOfMax(_hues, (int)(360*ErrorSize)+1);
             var s = IndexOfMax(_saturation, (int)(256 * ErrorSize) + 1) / 255f;
             var b = IndexOfMax(_brightness, (int)(256* ErrorSize) + 1) / 255f;

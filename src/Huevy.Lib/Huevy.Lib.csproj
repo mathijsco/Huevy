@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="AssemblyConfig.cs" />
     <Compile Include="ColorAnalyzers\IColorAnalyzer.cs" />
+    <Compile Include="ColorAnalyzers\MostDominantColorAnalyzer.cs" />
     <Compile Include="ColorAnalyzers\TopColorAnalyzer.cs" />
     <Compile Include="ColorSource\LiveCaptureColorSource.cs" />
     <Compile Include="Core\AccurateThreadTiming.cs" />
