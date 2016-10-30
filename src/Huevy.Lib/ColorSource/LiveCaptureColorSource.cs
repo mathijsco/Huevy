@@ -53,22 +53,19 @@ namespace Huevy.Lib.ColorSource
                         byte* currentLine = ptrFirstPixel + (y * bitmapData.Stride);
                         for (int x = 0; x < widthInPixels; x++)
                         {
+                            // *bytesPerPixel because of RGB colors
+                            int xAdjusted = x * bytesPerPixel;
+                            byte blue = currentLine[xAdjusted];
+                            byte green = currentLine[xAdjusted + 1];
+                            byte red = currentLine[xAdjusted + 2];
+                            var color = TinyColor.FromRgb(red, green, blue);
+
                             // Process all color positions
                             for (int p = 0; p < _regions.Count; p++)
                             {
-                                // X is out if range
-                                if (x < ranges[p, 0] || x > ranges[p, 2])
+                                // X or Y is out if range
+                                if (x < ranges[p, 0] || y < ranges[p, 1] || x > ranges[p, 2] || y > ranges[p, 3])
                                     continue;
-                                // Y is out if range
-                                if (y < ranges[p, 1] || y > ranges[p, 3])
-                                    continue;
-
-                                // *bytesPerPixel because of RGB colors
-                                int xAdjusted = x * bytesPerPixel;
-                                byte blue = currentLine[xAdjusted];
-                                byte green = currentLine[xAdjusted + 1];
-                                byte red = currentLine[xAdjusted + 2];
-                                var color = TinyColor.FromRgb(red, green, blue);
 
                                 colorSet[(ColorPosition)p].Add(color);
                             }

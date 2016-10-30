@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Huevy.Lib.Controllers
 {
-    public class ConnectionController
+    public sealed class ConnectionController
     {
         private HueClient _hueClient;
 

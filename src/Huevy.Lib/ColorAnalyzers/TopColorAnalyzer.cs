@@ -8,20 +8,21 @@ namespace Huevy.Lib.ColorAnalyzers
         private const float ErrorSize = 0.05f; // 5% error size
 
         public readonly int[] _hues;
-        public readonly int[] _saturation;
+        public readonly int[,] _saturation;
         public readonly int[] _brightness;
 
         public TopColorAnalyzer()
         {
             _hues = new int[360];
-            _saturation = new int[256];
+            _saturation = new int[360, 256];
             _brightness = new int[256];
         }
 
         public void Add(TinyColor color)
         {
-            _hues[(int)color.Hue]++;
-            _saturation[(int)(color.Saturation * 255)]++;
+            int hueIndex = (int)color.Hue;
+            _hues[hueIndex]++; // Always add one to the index 0. Will be used to calculate how much of the HUE in total.
+            _saturation[hueIndex, (int)(color.Saturation * 255)]++;
             _brightness[(int)(color.Brightness * 255)]++;
         }
 
@@ -34,11 +35,8 @@ namespace Huevy.Lib.ColorAnalyzers
             //if (targetColors.Any(c => c.Equals(_currentColor)))
             //    return;
 
-            // TODO: Cannot have different HUE and Saturation. This can take the HUE of one area, but the saturation of an other area.
-            // This can show a color that is not on the screen. Eg. HUE = brown, but Saturation of light green. Means color = orange.
-
             var h = IndexOfMax(_hues, (int)(360*ErrorSize)+1);
-            var s = IndexOfMax(_saturation, (int)(256 * ErrorSize) + 1) / 255f;
+            var s = IndexOfMaxUpper(_saturation, (int)(256 * ErrorSize) + 1, h) / 255f;
             var b = IndexOfMax(_brightness, (int)(256* ErrorSize) + 1) / 255f;
 
             return TinyColor.FromHsb(h, s, b);
@@ -61,6 +59,25 @@ namespace Huevy.Lib.ColorAnalyzers
                 }
             }
             return maxIndex + (int)Math.Floor(errorSize/2d);
+        }
+
+        private static int IndexOfMaxUpper(int[,] collection, int errorSize, int posLow)
+        {
+            var maxIndex = 0;
+            var maxValue = 0;
+            for (int i = 1; i <= collection.GetUpperBound(1) - errorSize; i++)
+            {
+                var currentValue = 0;
+                for (int j = 0; j < errorSize; j++)
+                    currentValue += collection[posLow, i + j];
+
+                if (currentValue > maxValue)
+                {
+                    maxValue = currentValue;
+                    maxIndex = i;
+                }
+            }
+            return maxIndex + (int)Math.Floor(errorSize / 2d);
         }
     }
 }
